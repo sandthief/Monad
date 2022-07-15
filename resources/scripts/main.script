@@ -1,0 +1,4 @@
+Module main
+        sayHello
+                System.print "Hello"
+end
