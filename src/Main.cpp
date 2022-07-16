@@ -9,9 +9,10 @@
 
 using namespace std;
 
-Player* player;
-Map     scene;
-Script  script;
+
+Player*  player;
+Map      scene;
+Script   script;
 
 
 void setup() {
@@ -19,7 +20,9 @@ void setup() {
         gui    = GUIObject::fromFile("resources/menus/main.xml");
 
         window = gui->getGUIObjectByID("main");
-        window->hideMouse();
+        window->addSubMenu("resources/menus/pause.xml");
+        
+
         renderer = new Renderer(window->width(),window->height());
 
         player = new Player();
@@ -38,7 +41,7 @@ void setup() {
 int main() {
         setup();
         while (1) {
-                window->pollEvents();
+                window->update();
 
                 renderer->startFrame();
                         scene.updateEntities(-1.0f);

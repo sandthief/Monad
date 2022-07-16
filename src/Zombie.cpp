@@ -47,7 +47,7 @@ void Zombie::update(std::vector<Entity*> entities,std::vector<Collision> collisi
         }
         else if (dead && target == this){
                 target->target = NULL;
-                // typingMode = false;
+                // menuMode = false;
         }
 
 

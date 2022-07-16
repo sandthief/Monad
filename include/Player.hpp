@@ -13,7 +13,7 @@ class Player : public Camera {
 		void update(std::vector<Entity*> entities,std::vector<Collision> collisions,float gravity);
 };
 
-extern bool typingMode;
+extern bool menuMode;
 extern std::map<std::string,bool>  key;
 
 #endif

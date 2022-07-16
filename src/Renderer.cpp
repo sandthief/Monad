@@ -40,15 +40,6 @@ Renderer::Renderer(int widthIn,int heightIn) {
         glLightfv(GL_LIGHT0, GL_DIFFUSE, dif);
         float amb[] = {0.2,0.2,0.2,1.0};
         glLightfv(GL_LIGHT0, GL_AMBIENT, amb);
-
-
-        float dif2[] = {0.2f,0.0f,0.0f,1.0};
-        glLightfv(GL_LIGHT1, GL_DIFFUSE, dif2);
-        float amb2[] = {0.0,0.0,0.0,1.0};
-
-        glLightfv(GL_LIGHT1, GL_AMBIENT, amb2);
-        float pos[] = {-2.0,2.0,-3.0,1.0};
-        glLightfv(GL_LIGHT1, GL_POSITION, pos);
 }
 
 void Renderer::startFrame() {

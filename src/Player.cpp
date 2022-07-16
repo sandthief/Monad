@@ -3,7 +3,7 @@
 #include <GUI.hpp>
 using namespace std;
 
-bool typingMode = false;
+bool menuMode = false;
 Player::Player() {
         boundingShape = Capsule( /* radius */ 16,Point3D(0.0f,0.0f,0.0f),/* height */ 30);
 	team          = FRIENDLY;
@@ -23,52 +23,51 @@ void Player::move(float direction) {
 }
 
 void Player::update(vector<Entity*> entities,std::vector<Collision> collisions,float gravity) {
-                Point2D position = window->getMousePosition();
+                if(!window->menuMode()) {
+                        Point2D position = window->getMousePosition();
+                        yaw   +=lookVelocity*(window->width()/2-position.x);
+                        pitch += lookVelocity*(window->height()/2-position.y);
+                        window->setMousePosition(Point2D(window->width()/2,window->height()/2));
 
-                yaw   +=lookVelocity*(window->width()/2-position.x);
-                pitch += lookVelocity*(window->height()/2-position.y);
+                        //Looking
+                	if(sf::Keyboard::isKeyPressed(sf::Keyboard::I)){
+                                pitch   += lookVelocity;
+                        }
+                        if(sf::Keyboard::isKeyPressed(sf::Keyboard::J)){
+                        	yaw += lookVelocity;
+                        }
+                        if(sf::Keyboard::isKeyPressed( sf::Keyboard::K)){
+                        	pitch -= lookVelocity;
+                        }
+                        if(sf::Keyboard::isKeyPressed(sf::Keyboard::L)){
+                                yaw -= lookVelocity;
+                        }
 
-                window->setMousePosition(Point2D(window->width()/2,window->height()/2));
-
-                //Looking
-        	if(sf::Keyboard::isKeyPressed(sf::Keyboard::I)){
-                        pitch   += lookVelocity;
-                }
-                if(sf::Keyboard::isKeyPressed(sf::Keyboard::J)){
-                	yaw += lookVelocity;
-                }
-                if(sf::Keyboard::isKeyPressed( sf::Keyboard::K)){
-                	pitch -= lookVelocity;
-                }
-                if(sf::Keyboard::isKeyPressed(sf::Keyboard::L)){
-                        yaw -= lookVelocity;
-                }
-
-                if(onGround)
-                        moveVelocity = 2.0f;
-                else if(onLadder)
-                        moveVelocity = 0.5f;
-                else
-                        moveVelocity = 0.1f;
-
-                if(sf::Keyboard::isKeyPressed(sf::Keyboard::W)){
-                        move(0);
-                }
-                if(sf::Keyboard::isKeyPressed(sf::Keyboard::A)){
-                        move(90);
-                }
-                if(sf::Keyboard::isKeyPressed( sf::Keyboard::S)){
-                        move(180);
-                }
-                if(sf::Keyboard::isKeyPressed(sf::Keyboard::D)){
-                        move(270);
-                }
-
-                if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space)){
                         if(onGround)
-                                velocity.y = velocity.y + 10;
-                }
+                                moveVelocity = 2.0f;
+                        else if(onLadder)
+                                moveVelocity = 0.5f;
+                        else
+                                moveVelocity = 0.1f;
 
+                        if(sf::Keyboard::isKeyPressed(sf::Keyboard::W)){
+                                move(0);
+                        }
+                        if(sf::Keyboard::isKeyPressed(sf::Keyboard::A)){
+                                move(90);
+                        }
+                        if(sf::Keyboard::isKeyPressed( sf::Keyboard::S)){
+                                move(180);
+                        }
+                        if(sf::Keyboard::isKeyPressed(sf::Keyboard::D)){
+                                move(270);
+                        }
+
+                        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space)){
+                                if(onGround)
+                                        velocity.y = velocity.y + 10;
+                        }
+                }
 
     Camera::update();
     Entity::update(entities,collisions,gravity);
