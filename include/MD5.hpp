@@ -52,6 +52,8 @@ public:
 
 	std::string             shader;
     	sf::Texture             texture;
+
+	Point3D                 applyWeights( MD5Vertex vertex,std::vector<MD5Joint> skeleton);
 };
 
 class MD5Model : public Model {

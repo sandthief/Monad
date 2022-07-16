@@ -94,6 +94,20 @@ void MD5Model::load(string filename) {
         cout << "could not load " << filename << endl;
 }
 
+Point3D MD5Mesh::applyWeights(MD5Vertex vertex,vector<MD5Joint> skeleton) {
+        Point3D point(0,0,0);
+        for(int v = 0; v < vertex.count; v++) {
+
+            MD5Weight   weight  =  weights[vertex.start + v];
+            MD5Joint    joint   =  skeleton[weight.joint];
+            Point3D     wv      =  joint.orientation.rotatePoint(weight.position);
+            point.x += (joint.position.x + wv.x) * weight.bias;
+            point.z += (joint.position.y + wv.y) * weight.bias;
+            point.y += (joint.position.z + wv.z) * weight.bias;
+        }
+        return point;
+}
+
 void MD5Model::render() {
     // Draw triangles
     for(int m = 0; m < meshes.size(); m++) {
@@ -101,24 +115,26 @@ void MD5Model::render() {
         glBegin(GL_TRIANGLES);
         for(int t = 0; t < meshes[m].triangles.size(); t++)  {
             MD5Triangle tri     =  meshes[m].triangles[t];
-            for(int i = 0; i < 3; i++){
 
-                MD5Vertex   a       =  meshes[m].verticies[tri.index[i]];
-                Point3D  finalV(0,0,0);
+            MD5Vertex   a       =  meshes[m].verticies[tri.index[0]];
+            MD5Vertex   b       =  meshes[m].verticies[tri.index[1]];
+            MD5Vertex   c       =  meshes[m].verticies[tri.index[2]];
 
-                for(int v = 0; v < a.count; v++) {
+            Point3D     A = meshes[m].applyWeights(a,skeleton);
+            Point3D     B = meshes[m].applyWeights(b,skeleton);
+            Point3D     C = meshes[m].applyWeights(c,skeleton);
+            Vector      N = normalize(cross(B - A, C - A));
 
-                    MD5Weight   weight  =  meshes[m].weights[a.start + v];
-                    MD5Joint    joint   =  skeleton[weight.joint];
-                    Point3D  wv      = joint.orientation.rotatePoint(weight.position);
-                    finalV.x += (joint.position.x + wv.x) * weight.bias;
-	            finalV.y += (joint.position.y + wv.y) * weight.bias;
-	            finalV.z += (joint.position.z + wv.z) * weight.bias;
-                }
+            glNormal3f(N.x,N.y,N.z);
+            glTexCoord2f(a.st.x,a.st.y);
+            glVertex3f(A.x,A.y,A.z);
+            glTexCoord2f(b.st.x,b.st.y);
+            glVertex3f(B.x,B.y,B.z);
+            glTexCoord2f(c.st.x,c.st.y);
+            glVertex3f(C.x,C.y,C.z);
 
-                glTexCoord2f(a.st.x,a.st.y);
-                glVertex3f(finalV.x,finalV.z,finalV.y);
-                }
+
+
         }
 
         glEnd();

@@ -16,6 +16,7 @@ float    distanceBetween(Point3D a,Point3D b);
 Point3D  projectPoint(Point3D origin,float yaw,float pitch,float distance);
 float    angleBetween(Point2D a,Point2D b,Point2D c);
 Point3D  closestPointOnTriangle(Point3D p, Point3D a,Point3D b,Point3D c);
+Vector   normal(Point3D a,Point3D b,Point3D c);
 float    clamp(float n, float min, float max);
 
 #endif

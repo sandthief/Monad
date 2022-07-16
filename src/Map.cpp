@@ -62,10 +62,23 @@ vector<Collision> Map::testCollision(Entity* entity) {
     return out;
 }
 
+#define YZ 0
+#define XZ 1
+#define XY 2
+
 void Map::generateLightmap() {
 	for(int g = 0; g < groups.size(); g++) {
 		for(int f = 0; f < groups[g].faces.size(); f++) {
-			
+			OBJFace        face   = groups[g].faces[f];
+			Point3D        a      = verticies[face.vertexIndecies[0]-1];
+			Point3D        b      = verticies[face.vertexIndecies[1]-1];
+			Point3D        c      = verticies[face.vertexIndecies[2]-1];
+			Point3D        normal = normalize(cross(b - a, c - a));
+			int            plane;
+
+			if (fabs(normal.x) > fabs(normal.y) && fabs(normal.x) > fabs(normal.z)) {
+
+			}
 
 		}
 	 }

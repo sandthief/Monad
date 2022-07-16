@@ -31,6 +31,24 @@ Renderer::Renderer(int widthIn,int heightIn) {
         glMatrixMode(GL_MODELVIEW);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glEnable( GL_BLEND );
+
+        glEnable(GL_LIGHTING);
+        glEnable(GL_LIGHT0);
+        glEnable(GL_LIGHT1);
+        //  glEnable(GL_COLOR_MATERIAL);
+        float dif[] = {1.0,1.0,1.0,1.0};
+        glLightfv(GL_LIGHT0, GL_DIFFUSE, dif);
+        float amb[] = {0.2,0.2,0.2,1.0};
+        glLightfv(GL_LIGHT0, GL_AMBIENT, amb);
+
+
+        float dif2[] = {0.2f,0.0f,0.0f,1.0};
+        glLightfv(GL_LIGHT1, GL_DIFFUSE, dif2);
+        float amb2[] = {0.0,0.0,0.0,1.0};
+
+        glLightfv(GL_LIGHT1, GL_AMBIENT, amb2);
+        float pos[] = {-2.0,2.0,-3.0,1.0};
+        glLightfv(GL_LIGHT1, GL_POSITION, pos);
 }
 
 void Renderer::startFrame() {

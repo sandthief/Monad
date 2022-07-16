@@ -136,3 +136,12 @@ float clamp(float n, float min, float max) {
         if(n > max) return max;
         return n;
 }
+
+Vector   normal(Point3D a,Point3D b,Point3D c) {
+        Vector A = b - a;
+        Vector B = c - a;
+
+        return Vector(A.y * B.z - A.z * B.y,
+                      A.z * B.x - A.x * B.z,
+                      A.x * B.y - A.y * B.x);
+}

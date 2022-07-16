@@ -4,6 +4,7 @@
 #include <XML.hpp>
 #include <Map.hpp>
 #include <Player.hpp>
+#include <Health.hpp>
 #include <Script.hpp>
 
 using namespace std;
@@ -24,8 +25,11 @@ void setup() {
         player = new Player();
 
 
-        Entity* canister = new Entity("resources/models/Canister.md5mesh",Capsule( /* radius */ 10,Point3D(-5.0f,10.0f,-5.0f),/* height */ 5));
+        Entity* canister = new Entity("resources/models/Canister.md5mesh",Capsule( /* radius */ 10,Point3D(-5.0f,10.0f,3.0f),/* height */ 5));
         scene.entities.push_back(canister);
+        Entity* health = new Health(Point3D(-5.0f,10.0f,2.0f));
+        scene.entities.push_back(health);
+
         scene.load("resources/models/main.obj");
         scene.entities.push_back(player);
 

@@ -1,4 +1,5 @@
 #include <Obj.hpp>
+#include <Math.hpp>
 
 using namespace std;
 
@@ -121,24 +122,25 @@ void Obj::render() {
         		for(int f = 0; f < groups[g].faces.size(); f++) {
                                         glBegin(GL_TRIANGLES);
                                         OBJFace      face  = groups[g].faces[f];
-                                        Point3D        n   = normals[face.normalIndecies[0]-1];
-                                        glNormal3f(n.x,n.y,n.z);
+                                        //Point3D        n   = normals[face.normalIndecies[0]-1];
+                                        //glNormal3f(n.x,n.y,n.z);
                                         OBJTextCoord uv1   = uvs[face.uvIndecies[0]-1];
                                         Point3D        a   = verticies[face.vertexIndecies[0]-1];
+                                        //glNormal3f(n.x,n.y,n.z);
+                                        OBJTextCoord uv2   = uvs[face.uvIndecies[1]-1];
+                                        Point3D        b   = verticies[face.vertexIndecies[1]-1];
+
+                                        //glNormal3f(n.x,n.y,n.z);
+                                        OBJTextCoord uv3   = uvs[face.uvIndecies[2]-1];
+                                        Point3D        c   = verticies[face.vertexIndecies[2]-1];
+                                        Vector N = normalize(cross(b - a, c - a));
+                                        glNormal3f(N.x,N.y,N.z);
                                         glTexCoord2f(uv1.u,1.0f - uv1.v);
                                         glVertex3f(a.x,a.y,a.z);
 
-
-                                                       n   = normals[face.normalIndecies[1]-1];
-                                        glNormal3f(n.x,n.y,n.z);
-                                        OBJTextCoord uv2   = uvs[face.uvIndecies[1]-1];
-                                        Point3D        b   = verticies[face.vertexIndecies[1]-1];
                                         glTexCoord2f(uv2.u,1.0f - uv2.v);
                                         glVertex3f(b.x,b.y,b.z);
-                                                       n   = normals[face.normalIndecies[2]-1];
-                                        glNormal3f(n.x,n.y,n.z);
-                                        OBJTextCoord uv3   = uvs[face.uvIndecies[2]-1];
-                                        Point3D        c   = verticies[face.vertexIndecies[2]-1];
+
                                         glTexCoord2f(uv3.u,1.0f - uv3.v);
                                         glVertex3f(c.x,c.y,c.z);
                                         glEnd();
