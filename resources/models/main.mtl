@@ -322,7 +322,7 @@ newmtl green
 	Kd 0.8 0.8 0.8
 	Ks 0.0 0.0 0.0
 	Ka 0.2 0.2 0.2
-	map_Kd ..\..\..\..\Desktop\octree\resources\models\green.png
+	map_Kd green.png
 
 newmtl gray
 	Ns 0
@@ -359,4 +359,3 @@ newmtl gold
 	Ks 0.0 0.0 0.0
 	Ka 0.2 0.2 0.2
 	map_Kd gold.bmp
-

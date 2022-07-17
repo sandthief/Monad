@@ -4,11 +4,11 @@ SRC_FILES  := $(wildcard $(SRC_DIR)/*.cpp)
 OBJ_FILES  := $(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(SRC_FILES))
 INCLUDES   := -Iinclude
 LDFLAGS    :=
-LIBRARIES  := -lOpenGL32 -lGlu32 -lGlew32 -lsfml-graphics -lsfml-system -lsfml-window
+LIBRARIES  := -lGL -lGLU -lGLEW -lsfml-graphics -lsfml-system -lsfml-window
 CPPFLAGS   := -fpermissive
 CXXFLAGS   :=
 
-engine.exe: $(OBJ_FILES)
+engine.x86_64: $(OBJ_FILES)
 	g++ $(LDFLAGS) -o $@ $^ $(LIBRARIES)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
@@ -18,4 +18,4 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
 .PHONY: clean
 
 clean:
-	del /S $(OBJ_DIR)
+	rm  $(OBJ_DIR)/*.o engine.x86_64

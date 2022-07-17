@@ -82,7 +82,7 @@ class Window : public GUIObject {
                 sf::RenderWindow* _window;
                 Console           console;
                 Point2D lastMousePosition;
-                
+
                 bool _menuMode;
         public:
                 Window(XMLNode* nodeIn);

@@ -3,10 +3,6 @@
 
 using namespace std;
 
-GUIObject::GUIObject() {
-        visible = true;
-}
-
 GUIObject* GUIObject::getGUIObjectByID(string idIn) {
         if(id == idIn)
                 return this;
@@ -19,7 +15,18 @@ GUIObject* GUIObject::getGUIObjectByID(string idIn) {
         }
 }
 
+GUIObject::GUIObject() {
+        visible = true;
+}
+
 GUIObject::GUIObject(XMLNode* nodeIn){
+        if(nodeIn->attributes["visible"] == "true")
+          visible = true;
+        else if(nodeIn->attributes["visible"] == "false")
+          visible = false;
+        else
+          visible = true;
+          
         id = nodeIn->attributes["id"];
         processChildren(nodeIn->children);
 }
@@ -56,7 +63,8 @@ GUIObject* GUIObject::fromNode(XMLNode* nodeIn) {
 }
 
 void GUIObject::toggleChild(string id) {
-        getGUIObjectByID(id)->visible = !getGUIObjectByID(id)->visible;
+      cout << getGUIObjectByID(id)->visible << endl;
+      getGUIObjectByID(id)->visible = !getGUIObjectByID(id)->visible;
 }
 
 void       GUIObject::hideChild(string id) {
@@ -104,7 +112,6 @@ Point2D GUIObject::getPositionFromNode(XMLNode* nodeIn) {
 
 void GUIObject::addSubMenu(std::string fileName) {
         XMLDocument* doc = XMLDocument::fromFile(fileName);
-        cout << doc->children.size();
         processChildren(doc->children);
 }
 

@@ -7,7 +7,7 @@ newmtl gold
 	Kd 0.8 0.8 0.8
 	Ks 0.0 0.0 0.0
 	Ka 0.2 0.2 0.2
-	map_Kd ..\..\..\OneDrive\Documents\engine-main\resources\models\gold.bmp
+	map_Kd gold.bmp
 
 newmtl grey
 	Ns 0
@@ -16,7 +16,7 @@ newmtl grey
 	Kd 0.8 0.8 0.8
 	Ks 0.0 0.0 0.0
 	Ka 0.2 0.2 0.2
-	map_Kd ..\..\..\OneDrive\Documents\engine-main\resources\models\gray.png
+	map_Kd gray.png
 
 newmtl off_white
 	Ns 0
@@ -25,7 +25,7 @@ newmtl off_white
 	Kd 0.8 0.8 0.8
 	Ks 0.0 0.0 0.0
 	Ka 0.2 0.2 0.2
-	map_Kd ..\..\..\OneDrive\Documents\engine-main\resources\models\off_white.bmp
+	map_Kd off_white.bmp
 
 newmtl gold
 	Ns 0
@@ -34,7 +34,7 @@ newmtl gold
 	Kd 0.8 0.8 0.8
 	Ks 0.0 0.0 0.0
 	Ka 0.2 0.2 0.2
-	map_Kd ..\..\..\OneDrive\Documents\engine-main\resources\models\gold.bmp
+	map_Kd gold.bmp
 
 newmtl grey
 	Ns 0
@@ -43,7 +43,7 @@ newmtl grey
 	Kd 0.8 0.8 0.8
 	Ks 0.0 0.0 0.0
 	Ka 0.2 0.2 0.2
-	map_Kd ..\..\..\OneDrive\Documents\engine-main\resources\models\gray.png
+	map_Kd gray.png
 
 newmtl off_white
 	Ns 0
@@ -52,7 +52,7 @@ newmtl off_white
 	Kd 0.8 0.8 0.8
 	Ks 0.0 0.0 0.0
 	Ka 0.2 0.2 0.2
-	map_Kd ..\..\..\OneDrive\Documents\engine-main\resources\models\off_white.bmp
+	map_Kd off_white.bmp
 
 newmtl outline
 	Ns 0
@@ -61,7 +61,7 @@ newmtl outline
 	Kd 0.8 0.8 0.8
 	Ks 0.0 0.0 0.0
 	Ka 0.2 0.2 0.2
-	map_Kd ..\..\..\OneDrive\Documents\engine-main\resources\models\outline.bmp
+	map_Kd outline.bmp
 
 newmtl red
 	Ns 0
@@ -71,4 +71,3 @@ newmtl red
 	Ks 0.0 0.0 0.0
 	Ka 0.2 0.2 0.2
 	map_Kd red.png
-

@@ -1,4 +1,4 @@
-<Menu id = "pause">
+<Menu id = "pause" visible = "false">
         <Image src = "resources/images/pause.png"> </Image>
         <Text size = "40" x = "100" y = "100"> Pause </Text>
         <Text size = "30" x = "120" y = "140"> About </Text>

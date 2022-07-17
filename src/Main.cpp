@@ -22,13 +22,12 @@ void setup() {
         window = gui->getGUIObjectByID("main");
         window->addSubMenu("resources/menus/pause.xml");
 
-
         renderer = new Renderer(window->width(),window->height());
 
         player = new Player();
 
 
-        Entity* canister = new Entity("resources/models/Canister.md5mesh",Capsule( /* radius */ 10,Point3D(-5.0f,10.0f,3.0f),/* height */ 5));
+        Entity* canister = new Entity("resources/models/canister.md5mesh",Capsule( /* radius */ 10,Point3D(-5.0f,10.0f,3.0f),/* height */ 5));
         scene.entities.push_back(canister);
         Entity* health = new Health(Point3D(-5.0f,10.0f,2.0f));
         scene.entities.push_back(health);
@@ -39,13 +38,13 @@ void setup() {
 }
 
 int main() {
-        Script* script = Script::loadFromFile("resources/scripts/main.script");
+        /*Script* script = Script::loadFromFile("resources/scripts/main.script");
 
         while(1) {
                 script->step();
-        }
+        }*/
 
-        /*setup();
+        setup();
         while (1) {
                 window->update();
 
@@ -53,7 +52,7 @@ int main() {
                         scene.updateEntities(-1.0f);
                         scene.render(player);
                 renderer->endFrame();
-        }*/
+        }
 
     return 0;
 }

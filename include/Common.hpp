@@ -1,7 +1,7 @@
 #include <GL/glew.h>
 #include <SFML/Window.hpp>
 #include <SFML/OpenGL.hpp>
-#include <SFMl/Graphics.hpp>
+#include <SFML/Graphics.hpp>
 #include <vector>
 #include <iostream>
 #include <fstream>
@@ -11,8 +11,8 @@
 #include <cstring>
 #include <vector>
 #include <map>
-#include <GL/GL.h>
-#include <GL/GLU.h>
+#include <GL/gl.h>
+#include <GL/glu.h>
 
 class GUI;
 class Window;
