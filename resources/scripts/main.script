@@ -1,4 +1,4 @@
-Module main
-        sayHello
-                System.print "Hello"
-end
+Module main.
+
+Responce main()
+        print("Hello world").

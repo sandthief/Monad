@@ -123,6 +123,7 @@ XMLDocument* XMLDocument::fromFile(string fileName) {
                                         currentNode->contents = currentNode->contents + " " + token;
                         }
                 }
+                XMLFile.close();
                 return out;
         }
         else {

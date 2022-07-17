@@ -21,7 +21,7 @@ void setup() {
 
         window = gui->getGUIObjectByID("main");
         window->addSubMenu("resources/menus/pause.xml");
-        
+
 
         renderer = new Renderer(window->width(),window->height());
 
@@ -39,7 +39,13 @@ void setup() {
 }
 
 int main() {
-        setup();
+        Script* script = Script::loadFromFile("resources/scripts/main.script");
+
+        while(1) {
+                script->step();
+        }
+
+        /*setup();
         while (1) {
                 window->update();
 
@@ -47,7 +53,7 @@ int main() {
                         scene.updateEntities(-1.0f);
                         scene.render(player);
                 renderer->endFrame();
-        }
+        }*/
 
     return 0;
 }

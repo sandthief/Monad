@@ -5,7 +5,9 @@
 
 enum SymbolType {
                 Function = 0,
-                Variable
+                Number,
+                Atom,
+                List
 };
 
 struct Symbol {
@@ -17,10 +19,16 @@ class ASTNode : public Node {
         Symbol symbol;
 };
 
+class Statement {
+public:
+        std::vector<std::string> tokens;
+        std::string print();
+};
+
 class Script {
         ASTNode* root;
         public:
-                bool      loadFromFile(std::string fileName);
+                static Script* loadFromFile(std::string fileName);
                 void      step();
 
 };
