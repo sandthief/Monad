@@ -3,30 +3,15 @@
 #ifndef __SCRIPT__H
 #define __SCRIPT__H
 
-enum SymbolType {
-                Function = 0,
-                Number,
-                Atom,
-                List
-};
-
-struct Symbol {
-        SymbolType type;
-        string     value;
-};
-
-class ASTNode : public Node {
-        Symbol symbol;
-};
-
-class Statement {
-public:
-        std::vector<std::string> tokens;
-        std::string print();
+class Module {
+  public:
+    string name;
+    Module();
+    Module(std::string nameIn);
 };
 
 class Script {
-        ASTNode* root;
+        vector<Module> modules;
         public:
                 static Script* loadFromFile(std::string fileName);
                 void      step();

@@ -52,7 +52,7 @@ int main() {
 
                 window->update();
                 renderer->startFrame();
-                        scene.updateEntities(-100.0 * ticks);
+                        scene.updateEntities(-100.0f);
                         scene.render(player);
                         window->showFPS();
                 renderer->endFrame();

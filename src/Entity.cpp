@@ -66,7 +66,7 @@ void Entity::update(vector<Entity*> entities,std::vector<Collision> collisions,f
 	onLadder = false;
 	processCollisions(collisions);
 	if(!onLadder)
-		velocity.y = velocity.y + gravity;
+		velocity.y = velocity.y + (gravity * ticks);
 }
 
 void Entity::display() {
