@@ -1,6 +1,6 @@
 #include <Player.hpp>
-#include <Zombie.hpp>
 #include <GUI.hpp>
+
 using namespace std;
 
 bool menuMode = false;
@@ -31,16 +31,16 @@ void Player::update(vector<Entity*> entities,std::vector<Collision> collisions,f
 
                         //Looking
                 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::I)){
-                                pitch   += lookVelocity;
+                                pitch   += ticks * lookVelocity;
                         }
                         if(sf::Keyboard::isKeyPressed(sf::Keyboard::J)){
-                        	yaw += lookVelocity;
+                        	yaw += ticks * lookVelocity;
                         }
                         if(sf::Keyboard::isKeyPressed( sf::Keyboard::K)){
-                        	pitch -= lookVelocity;
+                        	pitch -= ticks * lookVelocity;
                         }
                         if(sf::Keyboard::isKeyPressed(sf::Keyboard::L)){
-                                yaw -= lookVelocity;
+                                yaw -= ticks * lookVelocity;
                         }
 
                         if(onGround)

@@ -103,7 +103,7 @@ Point2D GUIObject::getPositionFromNode(XMLNode* nodeIn) {
                 string value = nodeIn->attributes["x"];
                 if(value.back() == '%') {
                   string percent = value.substr(0, value.size()-1);
-                  out.x = (1.0f/stof(percent)) * parent->width();
+                  out.x =(stof(percent)/100.0f) * parent->width();
 
                 }
                 else
@@ -115,7 +115,7 @@ Point2D GUIObject::getPositionFromNode(XMLNode* nodeIn) {
           string value = nodeIn->attributes["y"];
           if(value.back() == '%') {
             string percent = value.substr(0, value.size()-1);
-            out.y = (1.0f/stof(percent)) * parent->height();
+            out.y = (stof(percent)/100.0f) * parent->height();
 
           }
           else
@@ -133,7 +133,7 @@ Point2D GUIObject::getDimensionsFromNode(XMLNode* nodeIn) {
                 string value = nodeIn->attributes["width"];
                 if(value.back() == '%') {
                   string percent = value.substr(0, value.size()-1);
-                  out.x = (1.0f/stof(percent)) * parent->width();
+                  out.x = (stof(percent)/100.0f) * parent->width();
 
                 }
                 else
@@ -196,12 +196,39 @@ void Image::display() {
 Text::Text() {
 }
 
+
 Text::Text(XMLNode* nodeIn,GUIObject* parentIn) : GUIObject(nodeIn,parentIn){
 
         visible = true;
-        _text.setFont(font->regular);
-        if(nodeIn->attributes.count("size"))
-                _text.setCharacterSize(stoi(nodeIn->attributes["size"]));
+        if(nodeIn->attributes.count("style")) {
+          string style = nodeIn->attributes["style"];
+          if(style == "thin")
+            _text.setFont(font->thin);
+          else if(style == "regular")
+            _text.setFont(font->regular);
+          else if(style == "bold")
+            _text.setFont(font->bold);
+          else {
+            cout << "Invalid font style \"" << style << "\"" << endl;
+            _text.setFont(font->regular);
+          }
+        }
+        else
+          _text.setFont(font->regular);
+
+
+        if(nodeIn->attributes.count("size")) {
+                string value = nodeIn->attributes["size"];
+
+                if(value.back() == '%') {
+                  string percent = value.substr(0, value.size()-1);
+                  int size =(stof(percent)/100.0f) * parent->width();
+                  _text.setCharacterSize(size);
+
+                }
+                else
+                  _text.setCharacterSize(stoi(nodeIn->attributes["size"]));
+        }
         else
                 _text.setCharacterSize(30);
         _text.setString(nodeIn->contents);

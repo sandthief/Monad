@@ -1,6 +1,7 @@
 <Menu id = "pause" visible = "false">
         <Image src = "resources/images/pause.png" width = "100%" height = "100%"> </Image>
-        <Text size = "40" x = "10%" y = "100"> Pause </Text>
-        <Text size = "30" x = "120" y = "140"> About </Text>
-        <Text size = "30" x = "120" y = "170"> Exit </Text>
+        <Text size = "7%" x = "40%" y = "10%"> Monad </Text>
+        <Text style = "thin" size = "5%" x = "10%" y = "30%"> Pause </Text>
+        <Text style = "thin" size = "5%" x = "20%" y = "39%"> About </Text>
+        <Text style = "thin" size = "5%" x = "20%" y = "47%"> Exit </Text>
 </Menu>
