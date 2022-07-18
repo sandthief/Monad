@@ -1,7 +1,7 @@
 #include <Common.hpp>
 #include <XML.hpp>
 #include <TextureManager.hpp>
-
+#include <Looper.hpp>
 #ifndef __GUI__H
 #define __GUI__H
 
@@ -77,13 +77,14 @@ public:
 
 };
 
-class Window : public GUIObject {
+class Window : public GUIObject,public Looper {
         private:
                 sf::RenderWindow* _window;
                 Console           console;
                 Point2D lastMousePosition;
 
                 bool _menuMode;
+                sf::Clock clock;
         public:
                 Window(XMLNode* nodeIn);
 

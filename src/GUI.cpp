@@ -26,7 +26,7 @@ GUIObject::GUIObject(XMLNode* nodeIn){
           visible = false;
         else
           visible = true;
-          
+
         id = nodeIn->attributes["id"];
         processChildren(nodeIn->children);
 }
@@ -210,8 +210,8 @@ Window::Window(XMLNode* nodeIn) : GUIObject(nodeIn) {
         string title  = nodeIn->attributes["title"];
         int    width  = stoi(nodeIn->attributes["width"]);
         int    height = stoi(nodeIn->attributes["height"]);
-        _window = new sf::RenderWindow(sf::VideoMode(width, height), title, sf::Style::Default, sf::ContextSettings(32));
-
+        _window = new sf::RenderWindow(sf::VideoMode(width, height), title, sf::Style::Fullscreen, sf::ContextSettings(32));
+        _window->setVerticalSyncEnabled(true);
 }
 
 void Window::display() {
@@ -260,6 +260,7 @@ void Window::toggleMenuMode() {
 }
 
 void Window::update() {
+        ticks = clock.restart().asSeconds();
         pollEvents();
         if(menuMode())
                 window->showMouse();

@@ -19,3 +19,4 @@ class Window;
 
 extern GUI*    gui;
 extern Window* window;
+extern float   ticks;

@@ -3,7 +3,7 @@
 using namespace std;
 
 Camera::Camera() {
-  moveVelocity  = 1.5f;
+  moveVelocity  = 100.0f;
   lookVelocity  = 1;
   yaw           = 0.0f;
   pitch         = 0.0f;

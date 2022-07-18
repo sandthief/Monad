@@ -37,6 +37,8 @@ void setup() {
 
 }
 
+float ticks;
+
 int main() {
         /*Script* script = Script::loadFromFile("resources/scripts/main.script");
 
@@ -45,13 +47,18 @@ int main() {
         }*/
 
         setup();
+
         while (1) {
+
                 window->update();
+
+                
 
                 renderer->startFrame();
                         scene.updateEntities(-1.0f);
                         scene.render(player);
                 renderer->endFrame();
+
         }
 
     return 0;

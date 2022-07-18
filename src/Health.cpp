@@ -7,7 +7,8 @@ Health::Health(Point3D position) : Entity("resources/models/health.obj",Capsule(
 
 void Health::update(std::vector<Entity*> entities,std::vector<Collision> collisions,float gravity) {
         Entity::update(entities,collisions,gravity);
-        yaw = yaw + 1;
+
+        yaw = yaw + (300* ticks);
         if(yaw == 360)
                 yaw = 0;
 }

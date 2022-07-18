@@ -3,9 +3,11 @@
 
 #include <Common.hpp>
 #include <Color.hpp>
+#include <Looper.hpp>
 
-class Renderer{
+class Renderer {
 public:
+
         float FOV;
         float zNear;
         float zFar;

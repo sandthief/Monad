@@ -55,8 +55,9 @@ void Entity::processCollisions(std::vector<Collision> collisions) {
 	}
 
 	if(velocity.x != 0.0f || velocity.y != 0.0f || velocity.z != 0.0f) {
-		boundingShape.center = boundingShape.center + (velocity * 0.1f);
-		velocity = velocity -  (velocity * 0.1f);
+		float speed = ticks * 10;
+		boundingShape.center = boundingShape.center + (velocity * speed);
+		velocity = velocity -  (velocity * speed);
 	}
 }
 

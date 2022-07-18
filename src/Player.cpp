@@ -16,10 +16,10 @@ void Player::display() {
 }
 
 void Player::move(float direction) {
-    velocity.z = velocity.z + (-cos((direction + yaw) * (M_PI/180.0f)) * moveVelocity);
-    velocity.x = velocity.x + (-sin((direction + yaw) * (M_PI/180.0f)) * moveVelocity);
+    velocity.z = velocity.z + ((-cos((direction + yaw) * (M_PI/180.0f)) * moveVelocity) * ticks);
+    velocity.x = velocity.x + ((-sin((direction + yaw) * (M_PI/180.0f)) * moveVelocity)  * ticks);
     if(onLadder)
-        velocity.y = velocity.y + sin((pitch) * (M_PI/180.0f));
+        velocity.y = velocity.y + ((sin((pitch) * (M_PI/180.0f)) * moveVelocity) * ticks);
 }
 
 void Player::update(vector<Entity*> entities,std::vector<Collision> collisions,float gravity) {
@@ -44,11 +44,11 @@ void Player::update(vector<Entity*> entities,std::vector<Collision> collisions,f
                         }
 
                         if(onGround)
-                                moveVelocity = 2.0f;
+                                moveVelocity = 200.0f;
                         else if(onLadder)
-                                moveVelocity = 0.5f;
+                                moveVelocity = 150.0f;
                         else
-                                moveVelocity = 0.1f;
+                                moveVelocity = 10.0f;
 
                         if(sf::Keyboard::isKeyPressed(sf::Keyboard::W)){
                                 move(0);
