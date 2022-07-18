@@ -8,8 +8,7 @@ class Player : public Camera {
 	public:
 		Player();
 		void display();
-		void move(float direction);
-		void jump();
+		void move(float direction);	
 		void update(std::vector<Entity*> entities,std::vector<Collision> collisions,float gravity);
 };
 

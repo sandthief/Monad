@@ -1,7 +1,7 @@
 #include <Health.hpp>
 
 
-Health::Health(Point3D position) : Entity("resources/models/health.obj",Capsule(10,position,5)) {
+Health::Health(Point3D position) : Entity("resources/models/health.obj",Capsule(10,position,10)) {
 
 }
 

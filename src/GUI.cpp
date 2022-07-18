@@ -19,7 +19,8 @@ GUIObject::GUIObject() {
         visible = true;
 }
 
-GUIObject::GUIObject(XMLNode* nodeIn){
+GUIObject::GUIObject(XMLNode* nodeIn,GUIObject* parentIn){
+    parent = parentIn;
         if(nodeIn->attributes["visible"] == "true")
           visible = true;
         else if(nodeIn->attributes["visible"] == "false")
@@ -31,30 +32,30 @@ GUIObject::GUIObject(XMLNode* nodeIn){
         processChildren(nodeIn->children);
 }
 
-GUI::GUI(XMLNode* nodeIn) : GUIObject(nodeIn) {
+GUI::GUI(XMLNode* nodeIn) : GUIObject(nodeIn,NULL) {
 
 }
 
 GUIObject* GUIObject::fromFile(string fileIn) {
         XMLDocument* doc = XMLDocument::fromFile("resources/menus/main.xml");
-        return GUIObject::fromNode(doc->getElementByName("GUI"));
+        return GUIObject::fromNode(doc->getElementByName("GUI"),NULL);
 }
 
-GUIObject* GUIObject::fromNode(XMLNode* nodeIn) {
+GUIObject* GUIObject::fromNode(XMLNode* nodeIn,GUIObject* parent) {
         if(nodeIn->name == "GUI") {
                 return new GUI(nodeIn);
         }
         if(nodeIn->name == "Menu") {
-                return new GUIObject(nodeIn);
+                return new GUIObject(nodeIn,parent);
         }
         else if(nodeIn->name == "Window") {
                 return new Window(nodeIn);
         }
         else if(nodeIn->name == "Text") {
-                return new Text(nodeIn);
+                return new Text(nodeIn,parent);
         }
         else if(nodeIn->name == "Image") {
-                return new Image(nodeIn);
+                return new Image(nodeIn,parent);
         }
         else {
                 cout << "unknown GUIObject \"" << nodeIn->name << "\"" << endl;
@@ -85,25 +86,72 @@ void GUIObject::display() {
 
 void GUIObject::processChildren(std::vector<Node*> childrenIn) {
         for(int c = 0; c < childrenIn.size(); c++) {
-                children.push_back(GUIObject::fromNode(childrenIn[c]));
+                children.push_back(GUIObject::fromNode(childrenIn[c],this));
         }
 }
 
 int GUIObject::width() {
-        return 0;
+        return parent->width();
 }
 int GUIObject::height() {
-        return 0;
+        return parent->height();
 }
 
 Point2D GUIObject::getPositionFromNode(XMLNode* nodeIn) {
         Point2D out;
-        if(nodeIn->attributes.count("x"))
-                out.x  = stoi(nodeIn->attributes["x"]);
+        if(nodeIn->attributes.count("x")){
+                string value = nodeIn->attributes["x"];
+                if(value.back() == '%') {
+                  string percent = value.substr(0, value.size()-1);
+                  out.x = (1.0f/stof(percent)) * parent->width();
+
+                }
+                else
+                  out.x  = stoi(value);
+        }
         else
                 out.x = 0;
-        if(nodeIn->attributes.count("y"))
-                out.y  = stoi(nodeIn->attributes["y"]);
+        if(nodeIn->attributes.count("y")) {
+          string value = nodeIn->attributes["y"];
+          if(value.back() == '%') {
+            string percent = value.substr(0, value.size()-1);
+            out.y = (1.0f/stof(percent)) * parent->height();
+
+          }
+          else
+            out.y  = stoi(value);
+        }
+
+        else
+                out.y = 0;
+        return out;
+}
+
+Point2D GUIObject::getDimensionsFromNode(XMLNode* nodeIn) {
+        Point2D out;
+        if(nodeIn->attributes.count("width")){
+                string value = nodeIn->attributes["width"];
+                if(value.back() == '%') {
+                  string percent = value.substr(0, value.size()-1);
+                  out.x = (1.0f/stof(percent)) * parent->width();
+
+                }
+                else
+                  out.x  = stoi(value);
+        }
+        else
+                out.x = 0;
+        if(nodeIn->attributes.count("height")) {
+          string value = nodeIn->attributes["height"];
+          if(value.back() == '%') {
+            string percent = value.substr(0, value.size()-1);
+            out.y = (1.0f/stof(percent)) * parent->height();
+
+          }
+          else
+            out.y  = stoi(value);
+        }
+
         else
                 out.y = 0;
         return out;
@@ -119,14 +167,17 @@ void GUIObject::addSubMenu(std::string fileName) {
 Image::Image() {
 
 }
-Image::Image(XMLNode* nodeIn) {
+Image::Image(XMLNode* nodeIn,GUIObject* parentIn) {
+        parent = parentIn;
         visible = true;
         _texture = TextureManager::get(nodeIn->attributes["src"]);
         _sprite.setTexture(_texture);
 
         Point2D position = getPositionFromNode(nodeIn);
+        Point2D dimensions = getDimensionsFromNode(nodeIn);
 
         _sprite.setPosition(position.x,position.y);
+        _sprite.setScale(dimensions.x,dimensions.y);
 }
 
 int Image::width() {
@@ -145,7 +196,8 @@ void Image::display() {
 Text::Text() {
 }
 
-Text::Text(XMLNode* nodeIn) : GUIObject(nodeIn){
+Text::Text(XMLNode* nodeIn,GUIObject* parentIn) : GUIObject(nodeIn,parentIn){
+
         visible = true;
         _text.setFont(font->regular);
         if(nodeIn->attributes.count("size"))
@@ -206,7 +258,7 @@ void Console::toggle() {
 }
 
 
-Window::Window(XMLNode* nodeIn) : GUIObject(nodeIn) {
+Window::Window(XMLNode* nodeIn) : GUIObject(nodeIn,NULL) {
         string title  = nodeIn->attributes["title"];
         int    width  = stoi(nodeIn->attributes["width"]);
         int    height = stoi(nodeIn->attributes["height"]);
@@ -302,6 +354,21 @@ bool Window::menuMode() {
         return _menuMode;
 }
 
+void Window::showFPS() {
+  float fps = 1.f / ticks;
+
+  if(fpsCounter.timeElaped > 0.80f){
+
+    Text* fpsDisplay =  getGUIObjectByID("fps");
+
+    if(fpsDisplay != NULL)
+      fpsDisplay->setString(to_string(fps));
+
+    fpsCounter.loop();
+  }
+
+  fpsCounter.timeElaped = fpsCounter.timeElaped + ticks;
+}
 
 
 Font::Font(string fileName) {

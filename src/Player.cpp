@@ -65,14 +65,10 @@ void Player::update(vector<Entity*> entities,std::vector<Collision> collisions,f
 
                         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space)){
                                 if(onGround)
-                                        velocity.y = velocity.y + 10;
+                                        velocity.y = velocity.y + ((moveVelocity * 10) * ticks);
                         }
                 }
 
     Camera::update();
     Entity::update(entities,collisions,gravity);
-}
-
-void Player::jump() {
-        velocity.y = velocity.y + 2;
 }

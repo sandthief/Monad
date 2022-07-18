@@ -51,12 +51,10 @@ int main() {
         while (1) {
 
                 window->update();
-
-                
-
                 renderer->startFrame();
-                        scene.updateEntities(-1.0f);
+                        scene.updateEntities(-100.0 * ticks);
                         scene.render(player);
+                        window->showFPS();
                 renderer->endFrame();
 
         }

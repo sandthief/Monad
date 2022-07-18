@@ -9,20 +9,22 @@ class GUIObject {
         public:
                 std::string             id;
                 Point2D                 position;
+                GUIObject* parent;
                 std::vector<GUIObject*> children;
                 bool                    visible;
 
                 GUIObject();
-                GUIObject(XMLNode* nodeIn);
+                GUIObject(XMLNode* nodeIn,GUIObject* parent);
 
                         Point2D    getPositionFromNode(XMLNode* nodeIn);
+                        Point2D  getDimensionsFromNode(XMLNode* nodeIn);
                 virtual int        width();
                 virtual int        height();
                         void       hideChild(std::string id);
                         void       showChild(std::string id);
                         void       toggleChild(std::string id);
                         void       addSubMenu(std::string fileName);
-                static  GUIObject* fromNode(XMLNode* nodein);
+                static  GUIObject* fromNode(XMLNode* nodein,GUIObject* parentIn);
                 static  GUIObject* fromFile(std::string fileIn);
                         GUIObject* getGUIObjectByID(std::string id);
                         void       processChildren(std::vector<Node*> childrenIn);
@@ -39,7 +41,7 @@ class Text : public GUIObject {
         public:
                 sf::Text _text;
                 Text();
-                Text(XMLNode* nodeIn);
+                Text(XMLNode* nodeIn,GUIObject* parent);
                 Text(int x,int y,std::string text);
                 int width();
                 int height();
@@ -54,7 +56,7 @@ class Image : public GUIObject {
                 sf::Sprite   _sprite;
 
                 Image();
-                Image(XMLNode* nodeIn);
+                Image(XMLNode* nodeIn,GUIObject* parent);
 
                 int width();
                 int height();
@@ -77,7 +79,7 @@ public:
 
 };
 
-class Window : public GUIObject,public Looper {
+class Window : public GUIObject {
         private:
                 sf::RenderWindow* _window;
                 Console           console;
@@ -85,6 +87,7 @@ class Window : public GUIObject,public Looper {
 
                 bool _menuMode;
                 sf::Clock clock;
+                Looper fpsCounter;
         public:
                 Window(XMLNode* nodeIn);
 
@@ -102,6 +105,7 @@ class Window : public GUIObject,public Looper {
                 int height();
                 bool menuMode();
                 void toggleMenuMode();
+                void showFPS();
 };
 
 class GUI : public GUIObject {
