@@ -35,7 +35,7 @@ Point3D normalize(Point3D v) {
 	return vb;
 }
 
-static inline float dot(Point3D a, Point3D b) {
+float dot(Point3D a, Point3D b) {
 	return a.x * b.x + a.y * b.y + a.z * b.z;
 }
 

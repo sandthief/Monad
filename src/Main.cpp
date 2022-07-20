@@ -5,21 +5,19 @@
 #include <Map.hpp>
 #include <Player.hpp>
 #include <Health.hpp>
-#include <Script.hpp>
 
 using namespace std;
 
 
 Player*  player;
 Map      scene;
-Script   script;
 
 
 void setup() {
         font   = new Font("raleway");
-        gui    = GUIObject::fromFile("resources/menus/main.xml");
+        gui    = (GUI*)GUIObject::fromFile("resources/menus/main.xml");
 
-        window = gui->getGUIObjectByID("main");
+        window = (Window*)gui->getGUIObjectByID("main");
         window->addSubMenu("resources/menus/pause.xml");
 
         renderer = new Renderer(window->width(),window->height());
@@ -40,11 +38,6 @@ void setup() {
 float ticks;
 
 int main() {
-        /*Script* script = Script::loadFromFile("resources/scripts/main.script");
-
-        while(1) {
-                script->step();
-        }*/
 
         setup();
 

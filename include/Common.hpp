@@ -14,6 +14,8 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 
+#include <chaiscript/chaiscript.hpp>
+
 class GUI;
 class Window;
 

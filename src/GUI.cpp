@@ -86,7 +86,7 @@ void GUIObject::display() {
 
 void GUIObject::processChildren(std::vector<Node*> childrenIn) {
         for(int c = 0; c < childrenIn.size(); c++) {
-                children.push_back(GUIObject::fromNode(childrenIn[c],this));
+                children.push_back(GUIObject::fromNode((XMLNode*)childrenIn[c],this));
         }
 }
 
@@ -386,7 +386,7 @@ void Window::showFPS() {
 
   if(fpsCounter.timeElaped > 0.80f){
 
-    Text* fpsDisplay =  getGUIObjectByID("fps");
+    Text* fpsDisplay =  (Text*)getGUIObjectByID("fps");
 
     if(fpsDisplay != NULL)
       fpsDisplay->setString(to_string(fps));
