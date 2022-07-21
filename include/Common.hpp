@@ -16,6 +16,15 @@
 
 #include <chaiscript/chaiscript.hpp>
 
+#include <ScriptClass.hpp>
+#include <Point.hpp>
+#include <Collision.hpp>
+#include <Sphere.hpp>
+#include <Capsule.hpp>
+#include <Model.hpp>
+#include <Node.hpp>
+#include <XML.hpp>
+
 class GUI;
 class Window;
 

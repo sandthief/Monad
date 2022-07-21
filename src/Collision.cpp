@@ -1,4 +1,7 @@
-#include <Collision.hpp>
+#include <Common.hpp>
+
+using namespace std;
+using namespace chaiscript;
 
 Collision::Collision() {
     collided  = false;
@@ -10,4 +13,15 @@ Collision::Collision(Point3D directionIn,float depthIn,std::string materialIn) {
     depth     = depthIn;
     direction = directionIn;
     material  = materialIn;
+}
+
+void Collision::exportToScript() {
+        script.add(user_type<Collision>(),                         "Collision");
+        script.add(constructor<Collision(Point3D,float,string)>(), "Collision");
+        script.add(constructor<Collision()>(),                     "Collision");
+
+        script.add(fun(&Collision::direction),                     "direction");
+        script.add(fun(&Collision::depth),                         "depth");
+        script.add(fun(&Collision::collided),                      "collided");
+        script.add(fun(&Collision::material),                      "material");
 }

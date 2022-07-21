@@ -1,7 +1,8 @@
-#include <Map.hpp>
+#include <Scene.hpp>
 #include <MD5.hpp>
 
 using namespace std;
+using namespace chaiscript;
 
 Entity::Entity() {
 	team = OBJECT;
@@ -24,7 +25,20 @@ Entity::Entity(std::string modelName,Capsule capsuleIn) {
 	}
 }
 
+void Entity::exportToScript() {
+	script.add(user_type<Entity>(),                      "Entity");
+        script.add(constructor<Entity(string,Capsule)>(),    "Entity");
+        script.add(constructor<Entity()>(),                  "Entity");
 
+	script.add(fun(&Entity::onGround),                    "onGround");
+	script.add(fun(&Entity::onLadder),                    "onLadder");
+	script.add(fun(&Entity::dead),                        "dead");
+	script.add(fun(&Entity::yaw),                         "yaw");
+	script.add(fun(&Entity::pitch),                       "pitch");
+	script.add(fun(&Entity::model),                       "model");
+	script.add(fun(&Entity::boundingShape),               "boundingShape");
+	script.add(fun(&Entity::velocity),                    "velocity");
+}
 
 void Entity::init() {
 
@@ -87,7 +101,7 @@ void Entity::display2D() {
 }
 
 
-bool Entity::canSee(Entity* other, Map* map) {
+bool Entity::canSee(Entity* other, Scene* map) {
   float distance = distanceBetween(other->boundingShape.center, boundingShape.center);
 	if(distance < vision) {
 		Point2D a      = other->boundingShape.center.toPoint2D();

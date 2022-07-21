@@ -1,23 +1,25 @@
-#include <Common.hpp>
 
+#include <vector>
 #include <Point.hpp>
+#include <ScriptClass.hpp>
 
 #ifndef __NODE__H
 #define __NODE__H
 
-using namespace std;
-
-class Node{
+class Node : public ScriptClass {
         private:
                 void* data;
         public:
                 Node();
                 Node(Node* parentIn);
+
+                static void exportToScript();
+
                 void push(Node* data);
                 Node* pop();
 
-                Node*         parent;
-                vector<Node*> children;
+                Node*              parent;
+                std::vector<Node*> children;
 
 
 };

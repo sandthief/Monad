@@ -6,12 +6,14 @@
 
 class XMLNode : public Node {
         public:
-                std::string             name;
-                std::string             contents;
-                std::map<string,string> attributes;
+                std::string                       name;
+                std::string                       contents;
+                std::map<std::string,std::string> attributes;
 
                 XMLNode(XMLNode* parent,std::string);
                 XMLNode();
+
+                static void exportToScript();
 
                 XMLNode* getElementByID(std::string idIn);
                 XMLNode* getElementByName(std::string nameIn);
@@ -19,12 +21,9 @@ class XMLNode : public Node {
 
 class XMLDocument : public XMLNode {
         public:
-
                 XMLDocument();
-
-                static XMLDocument* fromFile(std::string fileName);
-
-
+                XMLDocument(std::string fileName);
+                static void exportToScript();
 };
 
 #endif

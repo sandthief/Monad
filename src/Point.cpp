@@ -1,4 +1,7 @@
-#include <Point.hpp>
+#include <Common.hpp>
+
+using namespace std;
+using namespace chaiscript;
 
 Point2D::Point2D() {
 	x = 0;
@@ -10,6 +13,14 @@ Point2D::Point2D(float xIn, float yIn) {
 	y = yIn;
 }
 
+void Point2D::exportToScript() {
+    script.add(user_type<Point2D>(),                "Point2D");
+    script.add(constructor<Point2D(float,float)>(), "Point2D");
+    script.add(constructor<Point2D()>(),            "Point2D");
+    script.add(fun(&Point2D::x),                    "x");
+    script.add(fun(&Point2D::y),                    "y");
+}
+
 Point3D::Point3D() {
 	x = 0;
 	y = 0;
@@ -19,6 +30,35 @@ Point3D::Point3D(float xIn,float yIn,float zIn) {
 	x = xIn;
 	y = yIn;
 	z = zIn;
+}
+
+void Point3D::exportToScript() {
+    script.add(user_type<Point3D>(),                      "Point3D");
+    script.add(constructor<Point3D(float,float,float)>(), "Point3D");
+    script.add(constructor<Point3D()>(),                  "Point3D");
+    script.add(fun(&Point3D::x),                          "x");
+    script.add(fun(&Point3D::y),                          "y");
+    script.add(fun(&Point3D::z),                          "z");
+
+    script.add(fun(&Point3D::toPoint2D),                  "toPoint2D");
+    script.add(fun(&Point3D::distance),                   "distance");
+    script.add(fun(&Point3D::dot),                        "dot");
+    script.add(fun(&Point3D::cross),                      "cross");
+
+    // There's got to be a better way than this
+    Point3D (Point3D::*addFloat)(float) = &Point3D::operator+;
+    script.add(fun(addFloat),                  "+");
+
+    Point3D (Point3D::*addPoint)(Point3D) = &Point3D::operator+;
+    script.add(fun(addPoint),                  "+");
+
+    Point3D (Point3D::*subPoint)(Point3D) = &Point3D::operator-;
+    script.add(fun(subPoint),                  "-");
+
+    script.add(fun(&Point3D::operator==),      "==");
+    script.add(fun(&Point3D::operator!=),      "!=");
+    script.add(fun(&Point3D::operator*),       "*");
+    script.add(fun(&Point3D::operator/),       "/");
 }
 
 float Point3D::dot(Point3D a, Point3D b) {

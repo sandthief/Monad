@@ -1,12 +1,31 @@
-#include <Sphere.hpp>
-#include <Math.hpp>
+#include <Common.hpp>
 
 using namespace std;
+using namespace chaiscript;
+
 Sphere::Sphere() {
 }
 Sphere::Sphere(Point3D centerIn,float radiusIn) {
 	center = centerIn;
 	radius = radiusIn;
+}
+
+void Sphere::exportToScript() {
+	script.add(user_type<Sphere>(),                  "Sphere");
+        script.add(constructor<Sphere(Point3D,float)>(), "Sphere");
+        script.add(constructor<Sphere()>(),              "Sphere");
+
+        script.add(fun(&Sphere::center),                 "center");
+	script.add(fun(&Sphere::radius),                 "radius");
+
+        //script.add(fun(&Sphere::isPointInside),          "isPointInside");
+
+	Collision (Sphere::*testTriangle)(Point3D,Point3D,Point3D,string) = &Sphere::testCollision;
+	script.add(fun(testTriangle),                  "testCollision");
+
+	Collision (Sphere::*testSphere)(Sphere) = &Sphere::testCollision;
+	script.add(fun(testSphere),                  "testCollision");
+
 }
 
 Collision Sphere::testCollision(Sphere b) {

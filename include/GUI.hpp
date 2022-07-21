@@ -2,19 +2,31 @@
 #include <XML.hpp>
 #include <TextureManager.hpp>
 #include <Looper.hpp>
+#include <functional>
+
+#include <ScriptClass.hpp>
+
 #ifndef __GUI__H
 #define __GUI__H
 
-class GUIObject {
+class GUIObject;
+
+typedef std::function<void(GUIObject*)>  GUIResponce;
+
+class GUIObject : public ScriptClass, public Looper {
         public:
-                std::string             id;
-                Point2D                 position;
-                GUIObject* parent;
-                std::vector<GUIObject*> children;
-                bool                    visible;
+                std::string                        id;
+                Point2D                            position;
+                GUIObject*                         parent;
+                std::vector<GUIObject*>            children;
+                bool                               visible;
+                float                              delay;
+                GUIResponce   loopFunction;
 
                 GUIObject();
                 GUIObject(XMLNode* nodeIn,GUIObject* parent);
+
+                static void exportToScript();
 
                         Point2D    getPositionFromNode(XMLNode* nodeIn);
                         Point2D  getDimensionsFromNode(XMLNode* nodeIn);
@@ -43,6 +55,9 @@ class Text : public GUIObject {
                 Text();
                 Text(XMLNode* nodeIn,GUIObject* parent);
                 Text(int x,int y,std::string text);
+
+                static void exportToScript();
+
                 int width();
                 int height();
                 void display();
@@ -87,7 +102,6 @@ class Window : public GUIObject {
 
                 bool _menuMode;
                 sf::Clock clock;
-                Looper fpsCounter;
         public:
                 Window(XMLNode* nodeIn);
 
@@ -105,7 +119,6 @@ class Window : public GUIObject {
                 int height();
                 bool menuMode();
                 void toggleMenuMode();
-                void showFPS();
 };
 
 class GUI : public GUIObject {

@@ -6,7 +6,7 @@
 #include <Capsule.hpp>
 #include <Model.hpp>
 
-class Map;
+class Scene;
 class Player;
 
 enum Team {
@@ -15,7 +15,7 @@ enum Team {
 	OBJECT
 };
 
-class Entity {
+class Entity : public ScriptClass  {
 	public:
 		bool        onGround;
 		bool        onLadder;
@@ -35,13 +35,14 @@ class Entity {
 
 		Entity();
 		Entity(std::string,Capsule capsuleIn);
+		static void exportToScript();
 
 		void         processCollisions(std::vector<Collision> collisions);
 		virtual void update(std::vector<Entity*> entities,std::vector<Collision> collisions,float gravity);
 		virtual void display();
 		virtual void display2D();
 		virtual void init();
-		virtual bool canSee(Entity* other,Map* mapIn);
+		virtual bool canSee(Entity* other,Scene* mapIn);
 };
 
 #endif

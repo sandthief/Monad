@@ -2,6 +2,32 @@
 #include <Player.hpp>
 
 using namespace std;
+using namespace chaiscript;
+
+void GUIObject::exportToScript() {
+        script.add(user_type<GUIObject>(),                        "GUIObject");
+        script.add(constructor<GUIObject(XMLNode*,GUIObject*)>(), "GUIObject");
+        script.add(constructor<GUIObject()>(),                    "GUIObject");
+
+        script.add(fun(&GUIObject::width),                    "width");
+        script.add(fun(&GUIObject::height),                   "height");
+
+        script.add(fun(&GUIObject::hideChild),                "hideChild");
+        script.add(fun(&GUIObject::showChild),                "showChild");
+        script.add(fun(&GUIObject::toggleChild),              "toggleChild");
+        script.add(fun(&GUIObject::addSubMenu),               "addSubMenu");
+        script.add(fun(&GUIObject::getGUIObjectByID),         "getGUIObjectByID");
+
+        script.add(fun(&GUIObject::id),                       "id");
+        script.add(fun(&GUIObject::position),                 "position");
+        script.add(fun(&GUIObject::parent),                   "parent");
+        script.add(fun(&GUIObject::children),                 "children");
+        script.add(fun(&GUIObject::visible),                  "visible");
+
+
+
+
+}
 
 GUIObject* GUIObject::getGUIObjectByID(string idIn) {
         if(id == idIn)
@@ -21,6 +47,19 @@ GUIObject::GUIObject() {
 
 GUIObject::GUIObject(XMLNode* nodeIn,GUIObject* parentIn){
     parent = parentIn;
+    timeElaped = 0.0;
+    if(nodeIn->attributes.count("loop")) {
+            loopFunction = script.eval<GUIResponce>(nodeIn->attributes["loop"]);
+            if(nodeIn->attributes.count("delay")) {
+                delay = stof(nodeIn->attributes["delay"]);
+            }
+            else
+                delay = 60.0/15.0;
+    }
+
+
+
+
         if(nodeIn->attributes["visible"] == "true")
           visible = true;
         else if(nodeIn->attributes["visible"] == "false")
@@ -37,8 +76,12 @@ GUI::GUI(XMLNode* nodeIn) : GUIObject(nodeIn,NULL) {
 }
 
 GUIObject* GUIObject::fromFile(string fileIn) {
-        XMLDocument* doc = XMLDocument::fromFile("resources/menus/main.xml");
-        return GUIObject::fromNode(doc->getElementByName("GUI"),NULL);
+        XMLDocument doc("resources/menus/main.xml");
+        XMLNode* embeddedScript = doc.getElementByName("Script");
+        if(embeddedScript != NULL) {
+                script.eval(embeddedScript->contents);
+        }
+        return GUIObject::fromNode(doc.getElementByName("GUI"),NULL);
 }
 
 GUIObject* GUIObject::fromNode(XMLNode* nodeIn,GUIObject* parent) {
@@ -77,16 +120,32 @@ void       GUIObject::showChild(string id) {
 
 
 void GUIObject::display() {
+        //cout << "id: " << id << " timeElaped: " << timeElaped << " delay: " << delay << endl;
+
+
+        if(timeElaped > delay) {
+                if(loopFunction) {
+                        loopFunction(this);
+                }
+
+                loop();
+        }
+
+
+
         if(visible) {
                 for(int c = 0; c < children.size(); c++) {
                         children[c]->display();
                 }
         }
+
+        timeElaped = timeElaped + ticks;
 }
 
 void GUIObject::processChildren(std::vector<Node*> childrenIn) {
         for(int c = 0; c < childrenIn.size(); c++) {
-                children.push_back(GUIObject::fromNode((XMLNode*)childrenIn[c],this));
+                if(((XMLNode*)childrenIn[c])->name != "Script")
+                        children.push_back(GUIObject::fromNode((XMLNode*)childrenIn[c],this));
         }
 }
 
@@ -159,8 +218,12 @@ Point2D GUIObject::getDimensionsFromNode(XMLNode* nodeIn) {
 
 
 void GUIObject::addSubMenu(std::string fileName) {
-        XMLDocument* doc = XMLDocument::fromFile(fileName);
-        processChildren(doc->children);
+        XMLDocument doc(fileName);
+        XMLNode* embeddedScript = doc.getElementByName("Script");
+        if(embeddedScript != NULL) {
+                script.eval(embeddedScript->contents);
+        }
+        processChildren(doc.children);
 }
 
 
@@ -243,7 +306,23 @@ Text::Text(int x,int y,std::string text) {
         _text.setString(text);
 
 }
+
+void Text::exportToScript() {
+        script.add(base_class<GUIObject, Text>());
+        script.add(user_type<Text>(),                            "Text");
+        script.add(constructor<Text(XMLNode*,GUIObject*)>(),     "Text");
+        script.add(constructor<Text()>(),                        "Text");
+
+        script.add(fun(&Text::width),                            "width");
+        script.add(fun(&Text::height),                           "height");
+
+        script.add(fun(&Text::setString),                        "setString");
+        script.add(fun(&Text::getString),                        "getString");
+}
+
 void Text::display() {
+        GUIObject::display();
+
         if(visible)
                 window->draw(this);
 }
@@ -379,22 +458,6 @@ int Window::height() {
 
 bool Window::menuMode() {
         return _menuMode;
-}
-
-void Window::showFPS() {
-  float fps = 1.f / ticks;
-
-  if(fpsCounter.timeElaped > 0.80f){
-
-    Text* fpsDisplay =  (Text*)getGUIObjectByID("fps");
-
-    if(fpsDisplay != NULL)
-      fpsDisplay->setString(to_string(fps));
-
-    fpsCounter.loop();
-  }
-
-  fpsCounter.timeElaped = fpsCounter.timeElaped + ticks;
 }
 
 

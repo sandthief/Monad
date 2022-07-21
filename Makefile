@@ -6,7 +6,7 @@ OBJ_FILES    := $(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(SRC_FILES))
 INCLUDES     := -Iinclude
 LDFLAGS      :=
 LIBRARIES    := -ldl -lpthread -lGL -lGLU -lGLEW -lsfml-graphics -lsfml-system -lsfml-window
-CPPFLAGS     := -fpermissive
+CPPFLAGS     := 
 CXXFLAGS     	:=
 
 engine.x86_64: $(OBJ_FILES)

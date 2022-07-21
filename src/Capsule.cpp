@@ -1,10 +1,31 @@
-#include <Capsule.hpp>
-#include <Sphere.hpp>
-#include <iostream>
+#include <Common.hpp>
+
 using namespace std;
+using namespace chaiscript;
 
 Capsule::Capsule() {
 
+}
+
+void Capsule::exportToScript() {
+        script.add(user_type<Capsule>(),                        "Capsule");
+        script.add(constructor<Capsule(float,Point3D,float)>(), "Capsule");
+        script.add(constructor<Capsule()>(),                    "Capsule");
+
+
+        script.add(fun(&Capsule::center),                       "center");
+        script.add(fun(&Capsule::radius),                       "radius");
+        script.add(fun(&Capsule::height),                       "height");
+
+        script.add(fun(&Capsule::tip),                          "tip");
+        script.add(fun(&Capsule::base),                         "base");
+        script.add(fun(&Capsule::normal),                       "normal");
+
+        Collision (Capsule::*testTriangle)(Point3D,Point3D,Point3D,string) = &Capsule::testCollision;
+        script.add(fun(testTriangle),                  "testCollision");
+
+        Collision (Capsule::*testCapsule)(Capsule,string) = &Capsule::testCollision;
+        script.add(fun(testCapsule),                  "testCollision");
 }
 
 Point3D Capsule::tip() {

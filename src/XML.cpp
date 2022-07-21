@@ -1,6 +1,7 @@
-#include <XML.hpp>
+#include <Common.hpp>
 
 using namespace std;
+using namespace chaiscript;
 
 XMLDocument::XMLDocument() {
 
@@ -12,6 +13,21 @@ XMLNode::XMLNode(XMLNode* parentIn,std::string nameIn){
         parent = parentIn;
         name   = nameIn;
 }
+
+void XMLNode::exportToScript() {
+        script.add(base_class<Node, XMLNode>());
+        script.add(user_type<XMLNode>(),                         "XMLNode");
+        script.add(constructor<XMLNode(XMLNode*,std::string)>(), "XMLNode");
+        script.add(constructor<XMLNode()>(),                     "XMLNode");
+
+        script.add(fun(&XMLNode::name),                          "name");
+        script.add(fun(&XMLNode::contents),                      "contents");
+        script.add(fun(&XMLNode::attributes),                    "attributes");
+
+        script.add(fun(&XMLNode::getElementByID),                 "getElementByID");
+        script.add(fun(&XMLNode::getElementByName),               "getElementByName");
+}
+
 XMLNode* XMLNode::getElementByName(string nameIn) {
         if(nameIn == name) {
                 return this;
@@ -41,12 +57,19 @@ XMLNode* XMLNode::getElementByID(std::string idIn){
 
 }
 
-XMLDocument* XMLDocument::fromFile(string fileName) {
+void XMLDocument::exportToScript() {
+        script.add(base_class<XMLNode, XMLDocument>());
+        script.add(user_type<XMLDocument>(),                         "XMLDocument");
+        script.add(constructor<XMLDocument()>(),                     "XMLDocument");
+        script.add(constructor<XMLDocument(string)>(),                     "XMLDocument");
+}
+
+XMLDocument::XMLDocument(string fileName) {
 
         ifstream XMLFile(fileName);
         cout << "Loading \"" << fileName << "\"" << endl;
         if(XMLFile.is_open()) {
-                XMLDocument* out = new XMLDocument();
+                XMLDocument* out = this;
                 XMLNode* currentNode = out;
 
                 string token;
@@ -124,10 +147,8 @@ XMLDocument* XMLDocument::fromFile(string fileName) {
                         }
                 }
                 XMLFile.close();
-                return out;
         }
         else {
                 cout << "Could not load \"" << fileName <<"\"." << endl;
-                return NULL;
         }
 }

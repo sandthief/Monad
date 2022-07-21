@@ -1,11 +1,12 @@
 #ifndef __CAPSULE__H
 #define __CAPSULE__H
 
-#include <Common.hpp>
 #include <Collision.hpp>
 #include <Math.hpp>
+#include <ScriptClass.hpp>
 
-class Capsule {
+
+class Capsule : public ScriptClass {
   public:
     Point3D center;
     float   radius;
@@ -16,6 +17,9 @@ class Capsule {
     Vector  normal();
     Capsule();
     Capsule(float radiusIn,Point3D centerIn,float hightIn);
+
+    static void exportToScript();
+
     Collision testCollision(Point3D a,Point3D b,Point3D c,std::string material);
     Collision testCollision(Capsule other,std::string material);
 };
