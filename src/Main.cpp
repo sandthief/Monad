@@ -7,10 +7,12 @@
 #include <Health.hpp>
 
 using namespace std;
+using namespace chaiscript;
 
+Player*     player;
+Map         scene;
+ChaiScript  script;
 
-Player*  player;
-Map      scene;
 
 
 void setup() {
@@ -24,14 +26,15 @@ void setup() {
 
         player = new Player();
 
-
-        Entity* canister = new Entity("resources/models/canister.md5mesh",Capsule( /* radius */ 10,Point3D(-5.0f,10.0f,3.0f),/* height */ 5));
+        /*
+        Entity* canister = new Entity("resources/models/canister.md5mesh",Capsule(10,Point3D(-5.0f,10.0f,3.0f),5));
         scene.entities.push_back(canister);
         Entity* health = new Health(Point3D(-5.0f,10.0f,2.0f));
         scene.entities.push_back(health);
 
         scene.load("resources/models/main.obj");
         scene.entities.push_back(player);
+        */
 
 }
 
@@ -41,6 +44,9 @@ int main() {
 
         setup();
 
+        //chai.add(fun(print));
+        script.use("resources/scripts/main.chai");
+        /*
         while (1) {
 
                 window->update();
@@ -50,7 +56,7 @@ int main() {
                         window->showFPS();
                 renderer->endFrame();
 
-        }
+        }*/
 
     return 0;
 }

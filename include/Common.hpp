@@ -19,6 +19,7 @@
 class GUI;
 class Window;
 
-extern GUI*    gui;
-extern Window* window;
-extern float   ticks;
+extern GUI*                   gui;
+extern Window*                window;
+extern float                  ticks;
+extern chaiscript::ChaiScript script;
