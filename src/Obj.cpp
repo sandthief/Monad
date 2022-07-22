@@ -2,7 +2,7 @@
 #include <Math.hpp>
 
 using namespace std;
-
+using namespace chaiscript;
 
 OBJTexture::OBJTexture(std::string file) {
     name = file;
@@ -39,6 +39,14 @@ Obj::Obj() {
 
 Obj::Obj(string fileName) {
 	load(fileName);
+}
+
+void Obj::exportToScript() {
+        script.add(base_class<Model, Obj>());
+        script.add(user_type<Obj>(),                            "Obj");
+        script.add(constructor<Obj(string)>(),                  "Obj");
+        script.add(constructor<Obj()>(),                       "Obj");
+        script.add(fun(&Obj::load),                            "load");
 }
 
 void Obj::load(string fileName) {

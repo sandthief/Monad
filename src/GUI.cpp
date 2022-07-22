@@ -489,15 +489,17 @@ void Window::pollEvents() {
             else if (event.type == sf::Event::KeyPressed) {
                     if (event.key.code == sf::Keyboard::Escape) {
                         if(currentMenu == NULL) {
-                                cout << "pulling up menu" << endl;
+                                menuMode = true;
                                 currentMenu = getGUIObjectByID("pause");
                                 currentMenu->visible = true;
                         }
                         else {
                                 currentMenu->visible = false;
 
-                                if(currentMenu->parent == this)
+                                if(currentMenu->parent == this) {
                                         currentMenu = NULL;
+                                        menuMode = false;
+                                }
                                 else
                                         currentMenu = currentMenu->parent;
                         }
@@ -514,20 +516,11 @@ void Window::pollEvents() {
         }
 }
 
-void Window::toggleMenuMode() {
-        if(!menuMode())
-             lastMousePosition = getMousePosition();
-        else
-             setMousePosition(lastMousePosition);
-
-        _menuMode = !_menuMode;
-
-}
-
 void Window::update() {
         ticks = clock.restart().asSeconds();
         pollEvents();
-        if(menuMode())
+
+        if(menuMode)
                 window->showMouse();
         else
                 window->hideMouse();
@@ -563,9 +556,7 @@ int Window::height() {
         return _window->getSize().y;
 }
 
-bool Window::menuMode() {
-        return _menuMode;
-}
+
 
 
 Font::Font(string fileName) {

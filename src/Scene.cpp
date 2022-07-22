@@ -1,6 +1,20 @@
 #include <Scene.hpp>
 
 using namespace std;
+using namespace chaiscript;
+
+void Scene::exportToScript() {
+        script.add(base_class<Obj, Scene>());
+        script.add(user_type<Scene>(),                            "Scene");
+        script.add(constructor<Scene()>(),                       "Scene");
+        script.add(fun(&Scene::load),                            "load");
+	script.add(fun(&Scene::addEntity),                       "addEntity");
+
+}
+
+void Scene::addEntity(Entity* added) {
+	entities.push_back(added);
+}
 
 void Scene::load(std::string filename) {
 	Obj::load(filename);

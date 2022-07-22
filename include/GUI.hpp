@@ -124,7 +124,6 @@ class Window : public GUIObject {
                 Console           console;
                 Point2D lastMousePosition;
 
-                bool _menuMode;
                 sf::Clock clock;
                 GUIObject* currentMenu;
         public:
@@ -142,8 +141,6 @@ class Window : public GUIObject {
                 void showMouse();
                 int  width();
                 int height();
-                bool menuMode();
-                void toggleMenuMode();
 };
 
 class GUI : public GUIObject {
@@ -160,4 +157,5 @@ class Font {
 };
 extern GUI* gui;
 extern Font* font;
+extern bool menuMode;
 #endif

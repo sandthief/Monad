@@ -1,1 +1,10 @@
 print("Starting game.");
+
+var canister = Entity("resources/models/canister.md5mesh",Capsule( 10,Point3D(-5.0f,10.0f,3.0f),5));
+var health   = Entity("resources/models/health.obj",Capsule( 10,Point3D(-0.0f,20.0f,0.0f),5));
+
+scene.load("resources/models/main.obj");
+scene.addEntity(player);
+scene.addEntity(canister);
+scene.addEntity(health);
+//scene.entities.push_back(player);

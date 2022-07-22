@@ -2,6 +2,7 @@
 #include <GUI.hpp>
 
 using namespace std;
+using namespace chaiscript;
 
 bool menuMode = false;
 Player::Player() {
@@ -9,6 +10,11 @@ Player::Player() {
 	team          = FRIENDLY;
         target        = NULL;
 
+}
+
+void Player::exportToScript() {
+        script.add(base_class<Entity, Player>());
+        script.add(user_type<Player>(),                            "Player");
 }
 
 void Player::display() {
@@ -23,7 +29,7 @@ void Player::move(float direction) {
 }
 
 void Player::update(vector<Entity*> entities,std::vector<Collision> collisions,float gravity) {
-                if(!window->menuMode()) {
+                if(!menuMode) {
                         Point2D position = window->getMousePosition();
                         yaw   +=lookVelocity*(window->width()/2-position.x);
                         pitch += lookVelocity*(window->height()/2-position.y);

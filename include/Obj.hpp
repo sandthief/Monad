@@ -63,6 +63,7 @@ class Obj : public Model {
 
 	Obj();
 	Obj(std::string fileName);
+        static void exportToScript();
         virtual void load(std::string filename);
         virtual void render();
 

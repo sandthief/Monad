@@ -15,6 +15,10 @@ void exitProgram() {
 }
 
 Engine::Engine(string scriptIn) {
+
+                menuMode = false;
+        // expose vars to script
+
         // expose functions to script
                 script.add(fun(fps), "fps");
                 script.add(fun(exitProgram), "exit");
@@ -33,6 +37,8 @@ Engine::Engine(string scriptIn) {
 
                 // Models
                 Model::exportToScript();
+                Obj::exportToScript();
+                Scene::exportToScript();
 
                 // GUI
                 GUIObject::exportToScript();
@@ -47,6 +53,12 @@ Engine::Engine(string scriptIn) {
 
                 // Entities
                 Entity::exportToScript();
+                Player::exportToScript();
+
+                player = new Player();
+
+                script.add(var(&scene), "scene");
+                script.add(var(player), "player");
 
 
         font   = new Font("raleway");
@@ -54,9 +66,10 @@ Engine::Engine(string scriptIn) {
 
         window = (Window*)gui->getGUIObjectByID("main");
         window->addSubMenu("resources/menus/pause.xml");
-
         renderer = new Renderer(window->width(),window->height());
-        player = new Player();
+
+
+
 
         // call script
         script.use(scriptIn);
