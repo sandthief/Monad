@@ -3,6 +3,8 @@
 #include <GUI.hpp>
 #include <Color.hpp>
 
+using namespace std;    
+
 Renderer::Renderer(int widthIn,int heightIn) {
         width  = widthIn;
         height = heightIn;

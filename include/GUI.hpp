@@ -32,6 +32,10 @@ class GUIObject : public ScriptClass, public Looper {
                         Point2D  getDimensionsFromNode(XMLNode* nodeIn);
                 virtual int        width();
                 virtual int        height();
+                virtual int        x();
+                virtual int        y();
+                        bool       isMouseInside();
+                virtual void       checkMouse();
                         void       hideChild(std::string id);
                         void       showChild(std::string id);
                         void       toggleChild(std::string id);
@@ -48,9 +52,15 @@ class GUIObject : public ScriptClass, public Looper {
 
 };
 
-class Text : public GUIObject {
+enum Thickness {
+        Regular = 0,
+        Thin,
+        Bold
+};
 
+class Text : public GUIObject {
         public:
+                sf::Font _font;
                 sf::Text _text;
                 Text();
                 Text(XMLNode* nodeIn,GUIObject* parent);
@@ -60,9 +70,23 @@ class Text : public GUIObject {
 
                 int width();
                 int height();
-                void display();
+                int x();
+                int y();
+                virtual void display();
+                void setThickness(Thickness thickness);
                 void setString(std::string text);
                 std::string getString();
+};
+
+#define CLICK_DELAY 0.80f
+
+class TextButton : public Text {
+                GUIResponce click;
+                float       lastClick;
+        public:
+                TextButton(XMLNode* nodeIn,GUIObject* parent);
+                void display();
+                void checkMouse();
 };
 
 class Image : public GUIObject {
@@ -102,6 +126,7 @@ class Window : public GUIObject {
 
                 bool _menuMode;
                 sf::Clock clock;
+                GUIObject* currentMenu;
         public:
                 Window(XMLNode* nodeIn);
 

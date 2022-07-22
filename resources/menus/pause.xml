@@ -1,11 +1,38 @@
 <Script>
+        def showExitModal(this) {
+                this.parent.visible = false;
+                var exitModal = this.parent.parent.getGUIObjectByID("exitModal");
+                exitModal.visible = true;
+        }
 
+        def hideExitModal(this) {
+                this.parent.visible = false;
+                var main = this.parent.parent.getGUIObjectByID("main");
+                main.visible = true;
+
+        }
+
+        def quit_game(this) {
+                exit();
+        }
 </Script>
 
 <Menu id = "pause" visible = "false">
         <Image src = "resources/images/pause.png" width = "100%" height = "100%"> </Image>
-        <Text size = "7%" x = "40%" y = "10%"> Monad </Text>
-        <Text style = "thin" size = "5%" x = "10%" y = "30%"> Pause </Text>
-        <Text style = "thin" size = "5%" x = "20%" y = "39%"> About </Text>
-        <Text style = "thin" size = "5%" x = "20%" y = "47%"> Exit </Text>
+
+        <Menu id = "main">
+                <Text size = "7%" x = "40%" y = "10%"> Monad </Text>
+                <Text style = "thin" size = "5%" x = "10%" y = "30%"> Pause </Text>
+                <TextButton style = "thin" size = "5%" x = "20%" y = "39%"> About </Text>
+                <TextButton click = "showExitModal" style = "thin" size = "5%" x = "20%" y = "47%"> Exit </Text>
+        </Menu>
+
+
+        <Menu id = "exitModal" visible = "false">
+                <Text style = "thin" size = "5%" x = "35%" y = "30%"> Are you sure? </Text>
+                <TextButton click = "quit_game" style = "thin" size = "5%" x = "42%" y = "40%"> Y </TextButton>
+                <Text style = "thin" size = "5%" x = "47%" y = "40%"> / </TextButton>
+                <TextButton  click = "hideExitModal" style = "thin" size = "5%" x = "52%" y = "40%"> N </TextButton>
+        </Menu>
+
 </Menu>

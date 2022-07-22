@@ -10,9 +10,14 @@ float fps() {
         return 1.f / ticks;
 }
 
+void exitProgram() {
+        exit(0);
+}
+
 Engine::Engine(string scriptIn) {
         // expose functions to script
                 script.add(fun(fps), "fps");
+                script.add(fun(exitProgram), "exit");
 
 
         // expose classes to script

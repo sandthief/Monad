@@ -71,6 +71,30 @@ GUIObject::GUIObject(XMLNode* nodeIn,GUIObject* parentIn){
         processChildren(nodeIn->children);
 }
 
+void       GUIObject::checkMouse() {
+        for(int c = 0; c < children.size(); c++) {
+                children[c]->checkMouse();
+        }
+}
+
+int GUIObject::x() {
+        return 0;
+}
+
+int GUIObject::y() {
+        return 0;
+}
+bool GUIObject::isMouseInside() {
+        Point2D mouse = window->getMousePosition();
+        if(mouse.x >= x() && mouse.x <= x()+width()) {
+                if(mouse.y >= y() && mouse.y <= y()+height()) {
+                        return true;
+                }
+        }
+
+        return false;
+}
+
 GUI::GUI(XMLNode* nodeIn) : GUIObject(nodeIn,NULL) {
 
 }
@@ -97,6 +121,9 @@ GUIObject* GUIObject::fromNode(XMLNode* nodeIn,GUIObject* parent) {
         else if(nodeIn->name == "Text") {
                 return new Text(nodeIn,parent);
         }
+        else if(nodeIn->name == "TextButton") {
+                return new TextButton(nodeIn,parent);
+        }
         else if(nodeIn->name == "Image") {
                 return new Image(nodeIn,parent);
         }
@@ -107,7 +134,6 @@ GUIObject* GUIObject::fromNode(XMLNode* nodeIn,GUIObject* parent) {
 }
 
 void GUIObject::toggleChild(string id) {
-      cout << getGUIObjectByID(id)->visible << endl;
       getGUIObjectByID(id)->visible = !getGUIObjectByID(id)->visible;
 }
 
@@ -265,19 +291,28 @@ Text::Text(XMLNode* nodeIn,GUIObject* parentIn) : GUIObject(nodeIn,parentIn){
         visible = true;
         if(nodeIn->attributes.count("style")) {
           string style = nodeIn->attributes["style"];
-          if(style == "thin")
-            _text.setFont(font->thin);
-          else if(style == "regular")
-            _text.setFont(font->regular);
-          else if(style == "bold")
-            _text.setFont(font->bold);
+          if(style == "thin") {
+            setThickness(Thin);
+            _font = font->thin;
+          }
+          else if(style == "regular") {
+            setThickness(Regular);
+            _font = font->regular;
+          }
+          else if(style == "bold") {
+           setThickness(Bold);
+           _font = font->bold;
+          }
           else {
             cout << "Invalid font style \"" << style << "\"" << endl;
-            _text.setFont(font->regular);
+            setThickness(Regular);
+            _font = font->regular;
           }
         }
-        else
-          _text.setFont(font->regular);
+        else {
+          setThickness(Regular);
+          _font = font->regular;
+        }
 
 
         if(nodeIn->attributes.count("size")) {
@@ -300,6 +335,16 @@ Text::Text(XMLNode* nodeIn,GUIObject* parentIn) : GUIObject(nodeIn,parentIn){
 
         _text.setPosition(position.x,position.y);
 }
+
+void Text::setThickness(Thickness thickness) {
+        if(thickness == Regular)
+                _text.setFont(font->regular);
+        else if(thickness == Thin)
+                _text.setFont(font->thin);
+        else if(thickness == Bold)
+                _text.setFont(font->bold);
+}
+
 Text::Text(int x,int y,std::string text) {
         _text.setFont(font->regular);
         _text.setPosition(x,y);
@@ -327,6 +372,13 @@ void Text::display() {
                 window->draw(this);
 }
 
+int Text::x() {
+        return _text.getPosition().x;
+}
+int Text::y() {
+        return _text.getPosition().y;
+}
+
 int Text::width() {
         return _text.getLocalBounds().width;
 }
@@ -339,6 +391,41 @@ void Text::setString(string text) {
 }
 string Text::getString() {
         return _text.getString().toAnsiString();
+}
+
+TextButton::TextButton(XMLNode* nodeIn,GUIObject* parentIn) : Text(nodeIn,parentIn) {
+        lastClick = 0.0f;
+        if(nodeIn->attributes.count("click")) {
+                click = script.eval<GUIResponce>(nodeIn->attributes["click"]);
+        }
+}
+
+void TextButton::checkMouse() {
+        if(isMouseInside() && visible) {
+                if(lastClick > CLICK_DELAY) {
+
+                        if(click) {
+                                click(this);
+                        }
+                        lastClick = 0.0f;
+                }
+        }
+
+        GUIObject::checkMouse();
+}
+
+void TextButton::display() {
+        if(isMouseInside()) {
+                setThickness(Regular);
+        }
+        else
+                _text.setFont(_font);
+
+        Text::display();
+        lastClick = lastClick + ticks;
+
+        if(lastClick > 100000)
+                lastClick = CLICK_DELAY;
 }
 
 Console::Console() {
@@ -370,6 +457,7 @@ Window::Window(XMLNode* nodeIn) : GUIObject(nodeIn,NULL) {
         int    height = stoi(nodeIn->attributes["height"]);
         _window = new sf::RenderWindow(sf::VideoMode(width, height), title, sf::Style::Fullscreen, sf::ContextSettings(32));
         _window->setVerticalSyncEnabled(true);
+        currentMenu = NULL;
 }
 
 void Window::display() {
@@ -394,15 +482,34 @@ void Window::pollEvents() {
                 // adjust the viewport when the window is resized
                 glViewport(0, 0, event.size.width, event.size.height);
             }
+            else if (event.type == sf::Event::MouseButtonPressed) {
+                            checkMouse();
+
+            }
             else if (event.type == sf::Event::KeyPressed) {
-               if (event.key.code == sf::Keyboard::Escape) {
+                    if (event.key.code == sf::Keyboard::Escape) {
+                        if(currentMenu == NULL) {
+                                cout << "pulling up menu" << endl;
+                                currentMenu = getGUIObjectByID("pause");
+                                currentMenu->visible = true;
+                        }
+                        else {
+                                currentMenu->visible = false;
+
+                                if(currentMenu->parent == this)
+                                        currentMenu = NULL;
+                                else
+                                        currentMenu = currentMenu->parent;
+                        }
+                    }
+               /*if (event.key.code == sf::Keyboard::Escape) {
                    toggleChild("pause");
                    toggleMenuMode();
                }
                if (event.key.code == sf::Keyboard::Tab) {
                    console.toggle();
                    toggleMenuMode();
-               }
+                }*/
             }
         }
 }
