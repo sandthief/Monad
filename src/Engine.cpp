@@ -1,4 +1,4 @@
-#include <Engine.hpp>
+#include <Common.hpp>
 
 using namespace std;
 using namespace chaiscript;
@@ -22,7 +22,7 @@ Engine::Engine(string scriptIn) {
         // expose functions to script
                 script.add(fun(fps), "fps");
                 script.add(fun(exitProgram), "exit");
-
+                script.add(fun(previousMenu), "previousMenu");
 
         // expose classes to script
 

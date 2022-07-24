@@ -1,4 +1,3 @@
-#include <Common.hpp>
 #include <XML.hpp>
 #include <TextureManager.hpp>
 #include <Looper.hpp>
@@ -12,6 +11,7 @@
 class GUIObject;
 
 typedef std::function<void(GUIObject*)>  GUIResponce;
+void previousMenu(GUIObject* self);
 
 class GUIObject : public ScriptClass, public Looper {
         public:
@@ -21,15 +21,15 @@ class GUIObject : public ScriptClass, public Looper {
                 std::vector<GUIObject*>            children;
                 bool                               visible;
                 float                              delay;
-                GUIResponce   loopFunction;
+                GUIResponce                        loopFunction;
 
                 GUIObject();
                 GUIObject(XMLNode* nodeIn,GUIObject* parent);
 
-                static void exportToScript();
+                static void        exportToScript();
 
                         Point2D    getPositionFromNode(XMLNode* nodeIn);
-                        Point2D  getDimensionsFromNode(XMLNode* nodeIn);
+                        Point2D    getDimensionsFromNode(XMLNode* nodeIn);
                 virtual int        width();
                 virtual int        height();
                 virtual int        x();
@@ -125,8 +125,9 @@ class Window : public GUIObject {
                 Point2D lastMousePosition;
 
                 sf::Clock clock;
-                GUIObject* currentMenu;
         public:
+                GUIObject* currentMenu;
+
                 Window(XMLNode* nodeIn);
 
                 void update();

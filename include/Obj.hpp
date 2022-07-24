@@ -1,7 +1,6 @@
 #ifndef OBJ__H
 #define OBJ__H
 
-#include <Common.hpp>
 #include <Point.hpp>
 #include <Model.hpp>
 #include <TextureManager.hpp>

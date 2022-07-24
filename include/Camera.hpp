@@ -1,7 +1,6 @@
 #ifndef __CAMERA__H
 #define __CAMERA__H
 
-#include <Common.hpp>
 #include <Math.hpp>
 #include <Entity.hpp>
 

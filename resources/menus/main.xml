@@ -5,7 +5,7 @@
 </Script>
 
 <GUI>
-        <Window id = "main" title = "Hydroxyzine Dreams " width = "620" height = "480">
+        <Window id = "main" title = "Mnemonic : Game Jam 111" width = "620" height = "480">
                 <Text loop = "fps_tick" delay = "0.80" id = "fps"> 0 </Text>
         </Window>
 </GUI>

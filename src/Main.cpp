@@ -1,6 +1,5 @@
 #include <Engine.hpp>
-
-int main() {
+int main(int argc,char* argv[]) {
         Engine engine("resources/scripts/main.chai");
 
         while (1) {

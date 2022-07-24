@@ -1,7 +1,6 @@
 #ifndef __PLAYER__HPP
 #define __PLAYER__HPP
 
-#include <Common.hpp>
 #include <Camera.hpp>
 
 class Player : public Camera {

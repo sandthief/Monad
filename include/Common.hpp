@@ -13,6 +13,7 @@
 #include <map>
 #include <GL/gl.h>
 #include <GL/glu.h>
+#include <stdlib.h>
 
 #include <chaiscript/chaiscript.hpp>
 
@@ -24,6 +25,9 @@
 #include <Model.hpp>
 #include <Node.hpp>
 #include <XML.hpp>
+#include <Scene.hpp>
+#include <Engine.hpp>
+#include <MD5.hpp>
 
 class GUI;
 class Window;
@@ -32,3 +36,4 @@ extern GUI*                   gui;
 extern Window*                window;
 extern float                  ticks;
 extern chaiscript::ChaiScript script;
+float randomNumber(float Min, float Max);

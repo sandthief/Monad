@@ -1,5 +1,5 @@
 #include <Node.hpp>
-
+#include <map>
 #ifndef __XML__H
 #define __XML__H
 

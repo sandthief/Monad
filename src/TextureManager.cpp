@@ -19,6 +19,8 @@ sf::Texture TextureManager::get(string nameIn) {
 	}
 
 	sf::Texture currentTexture;
+	currentTexture.setRepeated(true);
+	
 	if (!currentTexture.loadFromFile(nameIn)) {
 	    std::cout << "Could not load " << nameIn;
 	    return get("resources/models/default.bmp");

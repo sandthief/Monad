@@ -3,6 +3,7 @@
 
 #include <Point.hpp>
 #include <ScriptClass.hpp>
+#include <string>
 
 class Collision : public ScriptClass {
     public:

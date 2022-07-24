@@ -1,7 +1,6 @@
 #ifndef __AI__H
 #define __AI__H
 
-#include <Common.hpp>
 #include <Entity.hpp>
 
 class AI : public Entity {

@@ -1,12 +1,11 @@
-#include <Player.hpp>
-#include <GUI.hpp>
+#include <Common.hpp>
 
 using namespace std;
 using namespace chaiscript;
 
 bool menuMode = false;
 Player::Player() {
-        boundingShape = Capsule( /* radius */ 16,Point3D(0.0f,0.0f,0.0f),/* height */ 30);
+        boundingShape = Capsule( /* radius */ 16,Point3D(0.0f,100.0f,0.0f),/* height */ 20);
 	team          = FRIENDLY;
         target        = NULL;
 

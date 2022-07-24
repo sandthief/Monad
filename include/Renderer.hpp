@@ -1,7 +1,6 @@
 #ifndef __RENDERER_HPP
 #define __RENDERER_HPP
 
-#include <Common.hpp>
 #include <Color.hpp>
 #include <Looper.hpp>
 

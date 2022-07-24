@@ -1,7 +1,7 @@
 #ifndef __ENTITY__H
 #define __ENTITY__H
 
-#include <Common.hpp>
+#include <vector>
 #include <Point.hpp>
 #include <Capsule.hpp>
 #include <Model.hpp>

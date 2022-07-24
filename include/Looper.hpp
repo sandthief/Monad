@@ -3,7 +3,7 @@
 
 class Looper {
 public:
-  float timeElaped;
+  float timeElapsed;
   void loop();
 
 };

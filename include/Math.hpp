@@ -1,4 +1,3 @@
-#include <Common.hpp>
 #include <Point.hpp>
 
 #ifndef __MATH__HPP

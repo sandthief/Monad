@@ -1,4 +1,4 @@
-#include <Camera.hpp>
+#include <Common.hpp>
 
 using namespace std;
 

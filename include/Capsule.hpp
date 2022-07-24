@@ -1,6 +1,7 @@
 #ifndef __CAPSULE__H
 #define __CAPSULE__H
 
+#include <string>
 #include <Collision.hpp>
 #include <Math.hpp>
 #include <ScriptClass.hpp>

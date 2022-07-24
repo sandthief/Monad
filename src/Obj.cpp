@@ -1,5 +1,4 @@
-#include <Obj.hpp>
-#include <Math.hpp>
+#include <Common.hpp>
 
 using namespace std;
 using namespace chaiscript;
@@ -142,6 +141,8 @@ void Obj::render() {
                                         OBJTextCoord uv3   = uvs[face.uvIndecies[2]-1];
                                         Point3D        c   = verticies[face.vertexIndecies[2]-1];
                                         Vector N = normalize(cross(b - a, c - a));
+
+
                                         glNormal3f(N.x,N.y,N.z);
                                         glTexCoord2f(uv1.u,1.0f - uv1.v);
                                         glVertex3f(a.x,a.y,a.z);
@@ -152,8 +153,8 @@ void Obj::render() {
                                         glTexCoord2f(uv3.u,1.0f - uv3.v);
                                         glVertex3f(c.x,c.y,c.z);
                                         glEnd();
-
         		}
+
           }
         }
 }

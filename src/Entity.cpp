@@ -1,5 +1,4 @@
-#include <Scene.hpp>
-#include <MD5.hpp>
+#include <Common.hpp>
 
 using namespace std;
 using namespace chaiscript;

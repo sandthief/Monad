@@ -3,7 +3,7 @@
 #include <GUI.hpp>
 #include <Color.hpp>
 
-using namespace std;    
+using namespace std;
 
 Renderer::Renderer(int widthIn,int heightIn) {
         width  = widthIn;
@@ -20,6 +20,7 @@ Renderer::Renderer(int widthIn,int heightIn) {
         clearColor = Color(0.0f,0.0f,1.0f,0.0f);
 
         glEnable(GL_TEXTURE_2D);
+
         glClearColor(0.0f, 0.0f, 1.0f, 0.0f);
         glEnable(GL_CULL_FACE);
         glCullFace(GL_BACK);
@@ -33,10 +34,13 @@ Renderer::Renderer(int widthIn,int heightIn) {
         glMatrixMode(GL_MODELVIEW);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glEnable( GL_BLEND );
+        glClearStencil(0);
+        glStencilMask(0xFF);
 
         glEnable(GL_LIGHTING);
         glEnable(GL_LIGHT0);
         glEnable(GL_LIGHT1);
+
         //  glEnable(GL_COLOR_MATERIAL);
         float dif[] = {1.0,1.0,1.0,1.0};
         glLightfv(GL_LIGHT0, GL_DIFFUSE, dif);
@@ -46,7 +50,7 @@ Renderer::Renderer(int widthIn,int heightIn) {
 
 void Renderer::startFrame() {
         // clear the buffers
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
         glLoadIdentity();
 }
 

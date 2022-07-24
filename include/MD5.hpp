@@ -1,7 +1,6 @@
 #ifndef __MD5__H
 #define __MD5__H
 
-#include <Common.hpp>
 #include <Renderer.hpp>
 #include <Quaternion.hpp>
 #include <TextureManager.hpp>

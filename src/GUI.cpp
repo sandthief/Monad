@@ -1,5 +1,4 @@
-#include <GUI.hpp>
-#include <Player.hpp>
+#include <Common.hpp>
 
 using namespace std;
 using namespace chaiscript;
@@ -47,7 +46,7 @@ GUIObject::GUIObject() {
 
 GUIObject::GUIObject(XMLNode* nodeIn,GUIObject* parentIn){
     parent = parentIn;
-    timeElaped = 0.0;
+    timeElapsed = 0.0;
     if(nodeIn->attributes.count("loop")) {
             loopFunction = script.eval<GUIResponce>(nodeIn->attributes["loop"]);
             if(nodeIn->attributes.count("delay")) {
@@ -146,10 +145,10 @@ void       GUIObject::showChild(string id) {
 
 
 void GUIObject::display() {
-        //cout << "id: " << id << " timeElaped: " << timeElaped << " delay: " << delay << endl;
+        //cout << "id: " << id << " timeElapsed: " << timeElapsed << " delay: " << delay << endl;
 
 
-        if(timeElaped > delay) {
+        if(timeElapsed > delay) {
                 if(loopFunction) {
                         loopFunction(this);
                 }
@@ -165,7 +164,7 @@ void GUIObject::display() {
                 }
         }
 
-        timeElaped = timeElaped + ticks;
+        timeElapsed = timeElapsed + ticks;
 }
 
 void GUIObject::processChildren(std::vector<Node*> childrenIn) {
@@ -470,6 +469,16 @@ void Window::display() {
 
         _window->display();
 }
+
+void previousMenu(GUIObject* self) {
+  self->visible = false;
+
+  if(self->parent != NULL) {
+    window->currentMenu = self->parent;
+    window->currentMenu->visible = true;
+  }
+}
+
 extern Player* player;
 void Window::pollEvents() {
         sf::Event event;

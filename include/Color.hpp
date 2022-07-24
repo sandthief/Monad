@@ -1,8 +1,6 @@
 #ifndef __COLOR__HPP
 #define __COLOR__HPP
 
-#include <Common.hpp>
-
 class Color {
 public:
         float r,g,b,a;
